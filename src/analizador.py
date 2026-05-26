@@ -45,3 +45,28 @@ def parsear_argumentos():
 
     args = parser.parse_args()
     return args
+
+
+# 2. leer_fasta(ruta)
+# Entrada: archivo fasta
+# Responsabilidad: corroborar que existe, leer encabezados y secuencias
+# Salida: lista de tuplas con los encabezados y secuencias
+
+
+def leer_fasta(input):
+    secuencias = []
+    with open(input, "r") as file:
+        encabezado = None
+        secuencia = ""
+        for line in file:
+            line = line.strip()
+            if line.startswith(">"):
+                if encabezado is not None:
+                    secuencias.append((encabezado, secuencia))
+                encabezado = line[1:]  # Eliminar el '>'
+                secuencia = ""
+            else:
+                secuencia += line
+        if encabezado is not None:
+            secuencias.append((encabezado, secuencia))
+    return secuencias
